@@ -1,0 +1,9 @@
+pandas
+pandas_ta
+python-dotenv
+tqdm
+funcy
+openai
+setuptools
+wheel
+twine
