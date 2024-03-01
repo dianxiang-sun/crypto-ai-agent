@@ -1,1 +1,1 @@
-from cagent.agent.analyst import Analyst
+from cagent.agent import Analyst

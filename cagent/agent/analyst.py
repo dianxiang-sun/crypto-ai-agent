@@ -1,9 +1,15 @@
+import warnings
 import pandas as pd
 import pandas_ta as ta
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
 
-from cagent.modules.client.coingecko_client import CoinGeckoClient
-from cagent.modules.client.openai_client import OpenAiClient
+from cagent.client.coingecko_client import CoinGeckoClient
+from cagent.client.openai_client import OpenAiClient
+
+# Filter out FutureWarnings from pandas
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
 class Analyst:
@@ -13,18 +19,20 @@ class Analyst:
     - Run the Price Analyitcs
     """
 
-    def __init__(self, id, openai_api_key, coingecko_api_key):
+    def __init__(self, id):
+        load_dotenv()
+
         self.id = id
-        self.openai_api_key = openai_api_key
-        self.coingecko_api_key = coingecko_api_key
-        self.oa_client = OpenAiClient(openai_api_key, max_tokens=1000)
-        self.cg_client = CoinGeckoClient(coingecko_api_key)
+        self.openai_api_key = os.getenv("OPENAI_API_KEY")
+        self.coingecko_api_key = os.getenv("COINGECKO_API_KEY")
+        self.oa_client = OpenAiClient(self.openai_api_key, max_tokens=1000)
+        self.cg_client = CoinGeckoClient(self.coingecko_api_key)
 
     def run_metadata_analytics(self, coin):
         metadata_info = self._fetch_coin_metadata_data(coin)
         prompt = self._format_prompt_data(metadata_info)
         result = self.oa_client.query(
-            f"I got this the information for {coin}, can you create a summarized introduction? The information is {prompt}"
+            f"I got this the information for {coin}, can you create a summarized introduction? The information is {prompt}, please include specific data and statistics."
         )
         return result
 
@@ -35,7 +43,7 @@ class Analyst:
 
         prompt = self._format_prompt_data(df_filtered)
         result = self.oa_client.query(
-            f"I got this the price information for {coin}, can you create a summarized price trends analytics based on the given information? The information is {prompt}"
+            f"I got this the price information for {coin}, can you create a summarized price trends analytics based on the given information? The information is {prompt}, please include specific data and statistics."
         )
 
         return result
@@ -56,7 +64,7 @@ class Analyst:
 
         prompt = self._format_prompt_data(df_filtered)
         result = self.oa_client.query(
-            f"I got this the price information for {coin}, can you create a summarized technical analytics based on the given information? The information is {prompt}"
+            f"I got this the price information for {coin}, can you create a summarized technical analytics based on the given information? The information is {prompt}, please include specific data and statistics."
         )
 
         return result
