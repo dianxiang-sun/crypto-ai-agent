@@ -3,8 +3,6 @@
   <img alt="Pandas Logo" src="./images/brand.png">
 </picture>
 
------------------
-
 # crypto-ai-agent: copilot your Web3 journey
 
 [![license](https://img.shields.io/github/license/voltfin-crypto/crypto-ai-agent)](#license)
