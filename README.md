@@ -1,3 +1,10 @@
+<picture align="center">
+  <source media="(prefers-color-scheme: dark)" srcset="https://pandas.pydata.org/static/img/pandas_white.svg">
+  <img alt="Pandas Logo" src="./images/brand.png">
+</picture>
+
+-----------------
+
 # crypto-ai-agent: copilot your Web3 journey
 
 [![license](https://img.shields.io/github/license/voltfin-crypto/crypto-ai-agent)](#license)
@@ -96,9 +103,6 @@ analyst.run_technical_analytics("bitcoin", ["macd", "rsi"])
 ```
 
 ## Help
-
-For usage questions, the best place to go to is [StackOverflow](https://stackoverflow.com/questions/tagged/pandas).
-Further, general questions and discussions can also take place on the [pydata mailing list](https://groups.google.com/forum/?fromgroups#!forum/pydata).
 
 <hr>
 
