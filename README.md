@@ -1,5 +1,5 @@
 <picture align="center">
-  <source media="(prefers-color-scheme: dark)" srcset="https://pandas.pydata.org/static/img/pandas_white.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="./images/brand.png">
   <img alt="Pandas Logo" src="./images/brand.png">
 </picture>
 
