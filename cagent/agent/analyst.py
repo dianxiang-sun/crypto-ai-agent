@@ -37,9 +37,7 @@ class Analyst:
         additional_req="",
     ):
         metadata_info = self._fetch_coin_metadata_data(coin)
-        prompt = self._format_prompt_data(
-            metadata_info, include_specific_data, include_statistics, format_price
-        )
+        prompt = self._format_prompt_data(metadata_info)
 
         query_text = f"I got this the information for {coin}, can you create a summarized introduction?"
         if include_specific_data or include_statistics:
@@ -64,9 +62,7 @@ class Analyst:
         df_coin_price = self._transform_coin_price_data(coin_price)
         df_filtered = self._filter_data_by_days(df_coin_price, days)
 
-        prompt = self._format_prompt_data(
-            df_filtered, include_specific_data, include_statistics, format_price
-        )
+        prompt = self._format_prompt_data(df_filtered)
 
         query_text = f"I got this the price information for {coin}, can you create a summarized price trends analytics based on the given information?"
         if include_specific_data or include_statistics:
@@ -102,9 +98,7 @@ class Analyst:
 
         df_filtered = self._filter_data_by_days(df_strategy_data, days)
 
-        prompt = self._format_prompt_data(
-            df_filtered, include_specific_data, include_statistics, format_price
-        )
+        prompt = self._format_prompt_data(df_filtered)
 
         query_text = f"I got this the price information for {coin}, can you create a summarized technical analytics based on the given information?"
         if include_specific_data or include_statistics:
