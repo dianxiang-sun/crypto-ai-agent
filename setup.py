@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="crypto-ai-agent",
-    version="0.0.5",
+    version="0.0.7",
     author="Voltfin Crypto",
     author_email="zinnober.haus@gmail.com",
     description="Import your own Crypto AI Agent to help fetch, analyze, learn, understand and streamline your crypto work",

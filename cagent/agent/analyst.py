@@ -28,27 +28,67 @@ class Analyst:
         self.oa_client = OpenAiClient(self.openai_api_key, max_tokens=1000)
         self.cg_client = CoinGeckoClient(self.coingecko_api_key)
 
-    def run_metadata_analytics(self, coin):
+    def run_metadata_analytics(
+        self,
+        coin,
+        include_specific_data=True,
+        include_statistics=True,
+        format_price=True,
+        additional_req="",
+    ):
         metadata_info = self._fetch_coin_metadata_data(coin)
-        prompt = self._format_prompt_data(metadata_info)
-        result = self.oa_client.query(
-            f"I got this the information for {coin}, can you create a summarized introduction? The information is {prompt}, please include specific data and statistics."
+        prompt = self._format_prompt_data(
+            metadata_info, include_specific_data, include_statistics, format_price
         )
+
+        query_text = f"I got this the information for {coin}, can you create a summarized introduction?"
+        if include_specific_data or include_statistics:
+            query_text += f" The information is {prompt},"
+        if format_price:
+            query_text += " please format any price number as $."
+        query_text += f"Additional Requirement is: {additional_req}"
+
+        result = self.oa_client.query(query_text)
         return result
 
-    def run_price_analytics(self, coin, days=14):
+    def run_price_analytics(
+        self,
+        coin,
+        days=28,
+        include_specific_data=True,
+        include_statistics=True,
+        format_price=True,
+        additional_req="",
+    ):
         coin_price = self._fetch_coin_price_data(coin)
         df_coin_price = self._transform_coin_price_data(coin_price)
         df_filtered = self._filter_data_by_days(df_coin_price, days)
 
-        prompt = self._format_prompt_data(df_filtered)
-        result = self.oa_client.query(
-            f"I got this the price information for {coin}, can you create a summarized price trends analytics based on the given information? The information is {prompt}, please include specific data and statistics."
+        prompt = self._format_prompt_data(
+            df_filtered, include_specific_data, include_statistics, format_price
         )
 
+        query_text = f"I got this the price information for {coin}, can you create a summarized price trends analytics based on the given information?"
+        if include_specific_data or include_statistics:
+            query_text += f" The information is {prompt},"
+        if format_price:
+            query_text += " please format any price number as $."
+        if additional_req:
+            query_text += f" Additional Requirement is: {additional_req}"
+
+        result = self.oa_client.query(query_text)
         return result
 
-    def run_technical_analytics(self, coin, indicators, days=14):
+    def run_technical_analytics(
+        self,
+        coin,
+        indicators,
+        days=28,
+        include_specific_data=True,
+        include_statistics=True,
+        format_price=True,
+        additional_req="",
+    ):
         coin_price = self._fetch_coin_price_data(coin)
         df_coin_price = self._transform_coin_price_data(coin_price)[["date", "price"]]
         df_coin_price.columns = ["date", "close"]
@@ -62,11 +102,19 @@ class Analyst:
 
         df_filtered = self._filter_data_by_days(df_strategy_data, days)
 
-        prompt = self._format_prompt_data(df_filtered)
-        result = self.oa_client.query(
-            f"I got this the price information for {coin}, can you create a summarized technical analytics based on the given information? The information is {prompt}, please include specific data and statistics."
+        prompt = self._format_prompt_data(
+            df_filtered, include_specific_data, include_statistics, format_price
         )
 
+        query_text = f"I got this the price information for {coin}, can you create a summarized technical analytics based on the given information?"
+        if include_specific_data or include_statistics:
+            query_text += f" The information is {prompt},"
+        if format_price:
+            query_text += " please format any price number as $."
+        if additional_req:
+            query_text += f" Additional Requirement is: {additional_req}"
+
+        result = self.oa_client.query(query_text)
         return result
 
     def _filter_data_by_days(self, data, days):

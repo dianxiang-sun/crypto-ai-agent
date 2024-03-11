@@ -6,6 +6,7 @@ SHELL := /bin/bash
 # Define the python command and the package name
 PYTHON := python3
 PACKAGE := crypto-ai-agent
+TWINE := twine
 
 .PHONY: build install test refresh
 
@@ -15,7 +16,7 @@ build:
 
 # Install the package locally
 install: build
-	pip install dist/crypto_ai_agent-0.0.4-py3-none-any.whl
+	pip install dist/crypto_ai_agent-0.0.7-py3-none-any.whl
 
 # Uninstall the package
 uninstall:
@@ -27,6 +28,10 @@ refresh: uninstall build install
 # Run tests (optional, replace with your actual test command)
 test: install
 	$(PYTHON) -m unittest discover tests
+
+# Publish the package to PyPI
+publish: build
+	$(TWINE) upload dist/*
 
 # Help
 help:
